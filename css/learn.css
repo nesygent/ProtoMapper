@@ -1,0 +1,283 @@
+/* Learn pages — Carbon type + full width */
+
+.learn-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--cds-spacing-06);
+  width: 100%;
+  max-width: none;
+  padding: var(--page-pad-y) var(--page-pad-x);
+}
+
+@media (min-width: 66rem) {
+  .learn-layout {
+    grid-template-columns: 12rem minmax(0, 1fr);
+    gap: var(--cds-spacing-07);
+  }
+  .learn-toc {
+    position: sticky;
+    top: calc(var(--cds-header-h) + var(--cds-spacing-05));
+    align-self: start;
+    font-size: var(--cds-label-01);
+    max-height: calc(100dvh - var(--cds-header-h) - var(--cds-spacing-07));
+    overflow-y: auto;
+  }
+  .learn-toc a {
+    display: block;
+    padding: var(--cds-spacing-02) 0;
+    color: var(--ink-soft);
+    border-inline-start: 2px solid transparent;
+    padding-inline-start: var(--cds-spacing-03);
+    text-decoration: none;
+    line-height: 1.33333;
+  }
+  .learn-toc a:hover {
+    color: var(--as-secondary);
+  }
+}
+
+.learn {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  font-size: var(--cds-body-02); /* 16px — reading content a11y */
+  line-height: 1.5;
+  letter-spacing: 0;
+}
+
+.learn-hero {
+  margin-bottom: var(--cds-spacing-07);
+  padding-bottom: var(--cds-spacing-05);
+  border-bottom: 1px solid var(--line);
+  width: 100%;
+}
+.learn-kicker {
+  margin: 0 0 var(--cds-spacing-03);
+  font-size: var(--cds-label-01);
+  font-weight: 600;
+  letter-spacing: 0.32px;
+  line-height: 1.33333;
+  text-transform: uppercase;
+  color: var(--as-secondary);
+}
+.learn-hero h1 {
+  margin: 0 0 var(--cds-spacing-04);
+  font-size: var(--cds-heading-04);
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.25;
+}
+.learn-lede {
+  margin: 0;
+  font-size: var(--cds-body-02);
+  color: var(--ink-soft);
+  max-width: 42rem;
+  line-height: 1.5;
+}
+
+.learn h2 {
+  margin: var(--cds-spacing-07) 0 var(--cds-spacing-04);
+  font-size: var(--cds-heading-03);
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: 0;
+}
+.learn h3 {
+  margin: var(--cds-spacing-06) 0 var(--cds-spacing-03);
+  font-size: var(--cds-heading-02);
+  font-weight: 600;
+  line-height: 1.5;
+}
+.learn p,
+.learn li {
+  color: var(--ink-soft);
+  font-size: var(--cds-body-02);
+  line-height: 1.5;
+}
+.learn ul {
+  padding-left: 1.25rem;
+}
+
+.learn-toc__title {
+  font-size: var(--cds-label-01);
+  font-weight: 600;
+  letter-spacing: 0.32px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 var(--cds-spacing-03);
+}
+
+.summary-box {
+  background: var(--as-secondary);
+  color: #fff;
+  padding: var(--cds-spacing-05) var(--cds-spacing-06);
+  margin: 0 0 var(--cds-spacing-06);
+  width: 100%;
+}
+.summary-box h2 {
+  margin: 0 0 var(--cds-spacing-04);
+  font-size: var(--cds-heading-02);
+  font-weight: 600;
+  color: #fff;
+}
+.summary-box ol,
+.summary-box ul {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+.summary-box li {
+  color: #fff;
+  margin: var(--cds-spacing-02) 0;
+  font-size: var(--cds-body-01);
+  line-height: 1.42857;
+}
+
+.step-cards {
+  display: grid;
+  gap: 0;
+  margin: var(--cds-spacing-05) 0 var(--cds-spacing-06);
+  counter-reset: step;
+  width: 100%;
+}
+.step-card {
+  display: grid;
+  grid-template-columns: 2rem 1fr;
+  gap: var(--cds-spacing-04);
+  border-block-end: 1px solid var(--line);
+  padding: var(--cds-spacing-04) 0;
+}
+.step-card::before {
+  counter-increment: step;
+  content: counter(step);
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  background: var(--as-secondary-soft);
+  color: var(--as-secondary);
+  font-weight: 600;
+  font-size: var(--cds-label-01);
+  display: grid;
+  place-items: center;
+}
+[data-theme="dark"] .step-card::before {
+  color: var(--as-secondary);
+}
+.step-card h3 {
+  margin: 0 0 var(--cds-spacing-02);
+  font-size: var(--cds-heading-compact-01);
+  font-weight: 600;
+}
+.step-card p {
+  margin: 0;
+  font-size: var(--cds-body-01);
+}
+
+.fig {
+  margin: var(--cds-spacing-05) 0 var(--cds-spacing-06);
+  width: 100%;
+}
+.fig-caption {
+  margin: var(--cds-spacing-03) 0 0;
+  font-size: var(--cds-helper-text-01);
+  color: var(--muted);
+  text-align: center;
+  line-height: 1.33333;
+}
+
+.illus {
+  background: var(--surface);
+  border-block: 1px solid var(--line);
+  padding: var(--cds-spacing-05);
+  overflow-x: auto;
+  width: 100%;
+}
+.illus svg {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  height: auto;
+}
+
+.do-dont {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+  gap: var(--cds-spacing-06);
+  margin: var(--cds-spacing-05) 0;
+  width: 100%;
+}
+.do-dont > div {
+  border-block-start: 3px solid var(--line);
+  padding: var(--cds-spacing-04) 0;
+}
+.do-dont .do {
+  border-block-start-color: #188038;
+}
+.do-dont .dont {
+  border-block-start-color: #d93025;
+}
+.do-dont h3 {
+  margin: 0 0 var(--cds-spacing-03);
+  font-size: var(--cds-label-01);
+  text-transform: uppercase;
+  letter-spacing: 0.32px;
+}
+.do-dont .do h3 {
+  color: #188038;
+}
+.do-dont .dont h3 {
+  color: #d93025;
+}
+.do-dont ul {
+  margin: 0;
+  padding-left: 1.15rem;
+  font-size: var(--cds-body-01);
+}
+
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--cds-spacing-03);
+  margin: var(--cds-spacing-04) 0 var(--cds-spacing-05);
+}
+.chip {
+  display: inline-block;
+  padding: var(--cds-spacing-02) var(--cds-spacing-03);
+  background: var(--as-tertiary-soft);
+  color: var(--as-tertiary-deep);
+  font-size: var(--cds-label-01);
+  font-weight: 500;
+  line-height: 1.33333;
+}
+[data-theme="dark"] .chip {
+  color: var(--as-tertiary);
+}
+
+.section-anchor {
+  scroll-margin-top: calc(var(--cds-header-h) + var(--cds-spacing-05));
+}
+
+.learn details.deep {
+  border-block: 1px solid var(--line);
+  background: transparent;
+  padding: var(--cds-spacing-04) 0;
+  margin: var(--cds-spacing-05) 0;
+}
+.learn details.deep summary {
+  cursor: pointer;
+  font-weight: 600;
+  font-size: var(--cds-body-compact-01);
+  color: var(--as-secondary);
+}
+
+.learn .table-wrap table {
+  font-size: var(--cds-body-01);
+}
+.learn th,
+.learn td {
+  padding: var(--cds-spacing-03) var(--cds-spacing-04);
+}
+.learn pre.code {
+  font-size: var(--cds-body-01);
+  padding: var(--cds-spacing-05);
+}

@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="ProtoMap — learn Protobuf, gRPC, and HTTP/2, then explore .proto files in the browser." />
+  <title>ProtoMap — learn &amp; view protobuf</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/app.css" />
+  <link rel="stylesheet" href="css/theme.css" />
+  <link rel="stylesheet" href="css/learn.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%231a73e8'/%3E%3Cpath d='M8 10h16v2H8zm0 5h12v2H8zm0 5h14v2H8z' fill='%23ffffff'/%3E%3C/svg%3E" />
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+
+  <header class="cds-header" role="banner">
+    <button type="button" class="cds-header__menu-btn" id="btn-nav-toggle" aria-label="Toggle navigation" title="Menu">
+      <svg width="20" height="20" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true"><path d="M4 6h24v2H4zm0 9h24v2H4zm0 9h24v2H4z"/></svg>
+    </button>
+    <a class="cds-header__name" href="#/viewer" id="btn-home" title="Proto Viewer home">
+      ProtoMap <span>Viewer</span>
+    </a>
+    <nav class="cds-header__tools" id="viewer-toolbar" aria-label="Proto Viewer actions">
+      <button type="button" class="cds-header__tool" id="btn-open" title="Open .proto files (O)">Open</button>
+      <button type="button" class="cds-header__tool" id="btn-paste" title="Paste proto text (P)">Paste</button>
+      <button type="button" class="cds-header__tool" id="btn-fetch" title="Fetch from URL (U)">URL</button>
+      <button type="button" class="cds-header__tool" id="btn-compose" title="Compose new proto (N)">Compose</button>
+      <button type="button" class="cds-header__tool" id="btn-search" title="Search (⌘K)">Search</button>
+      <button type="button" class="cds-header__tool cds-header__tool--more" id="btn-tools-more" aria-expanded="false" aria-controls="tools-overflow" title="More actions" hidden>
+        More
+      </button>
+      <div class="cds-header__overflow" id="tools-overflow" hidden role="menu">
+        <button type="button" class="cds-header__overflow-item" data-tool="btn-open" role="menuitem">Open</button>
+        <button type="button" class="cds-header__overflow-item" data-tool="btn-paste" role="menuitem">Paste</button>
+        <button type="button" class="cds-header__overflow-item" data-tool="btn-fetch" role="menuitem">URL</button>
+        <button type="button" class="cds-header__overflow-item" data-tool="btn-compose" role="menuitem">Compose</button>
+        <button type="button" class="cds-header__overflow-item" data-tool="btn-search" role="menuitem">Search</button>
+      </div>
+    </nav>
+  </header>
+
+  <div class="cds-shell">
+    <nav class="cds-sidenav" id="sidenav" aria-label="Primary" data-collapsed="false">
+      <div class="cds-sidenav__label">Proto Viewer</div>
+      <a class="cds-sidenav__link" href="#/viewer" data-nav="viewer">
+        <svg class="nav-icon" viewBox="0 0 32 32" fill="currentColor"><path d="M4 6h24v2H4zm0 6h24v2H4zm0 6h16v2H4zm0 6h20v2H4z"/></svg>
+        Workspace
+      </a>
+
+      <div class="cds-sidenav__label">Learn the stack</div>
+      <a class="cds-sidenav__link" href="#/home" data-nav="home">
+        <svg class="nav-icon" viewBox="0 0 32 32" fill="currentColor"><path d="M16.61 2.21a1 1 0 0 0-1.23 0L2 13.48V29a1 1 0 0 0 1 1h10V20h6v10h10a1 1 0 0 0 1-1V13.48Z"/></svg>
+        Overview
+      </a>
+      <a class="cds-sidenav__link" href="#/learn/protobuf" data-nav="learn/protobuf">
+        <svg class="nav-icon" viewBox="0 0 32 32" fill="currentColor"><path d="M8 4h16a2 2 0 0 1 2 2v20l-5-3-5 3-5-3-5 3V6a2 2 0 0 1 2-2z"/></svg>
+        1 · Protobuf 3
+      </a>
+      <a class="cds-sidenav__link" href="#/learn/grpc" data-nav="learn/grpc">
+        <svg class="nav-icon" viewBox="0 0 32 32" fill="currentColor"><path d="M6 8h8v4H6zm12 0h8v4h-8zM6 16h20v2H6zm0 6h20v2H6z"/></svg>
+        2 · gRPC
+      </a>
+      <a class="cds-sidenav__link" href="#/learn/http2" data-nav="learn/http2">
+        <svg class="nav-icon" viewBox="0 0 32 32" fill="currentColor"><path d="M4 16h8v10H4zm10-8h8v18h-8zm10 4h4v14h-4z"/></svg>
+        3 · HTTP/2
+      </a>
+      <a class="cds-sidenav__link" href="#/learn/together" data-nav="learn/together">
+        <svg class="nav-icon" viewBox="0 0 32 32" fill="currentColor"><path d="M16 4l12 8v12l-12 4L4 24V12z"/></svg>
+        4 · Together
+      </a>
+    </nav>
+
+    <div class="cds-content" id="main-content">
+      <!-- HOME -->
+      <section class="page active" id="page-home" aria-label="Home">
+        <div class="home">
+          <div class="home-hero">
+            <h1>Master the stack. Then read the wire.</h1>
+            <p>
+              Four interactive lessons — <strong>Protobuf 3</strong>, <strong>gRPC</strong>, <strong>HTTP/2</strong>, and how they
+              compose — with diagrams and production checklists. Then open the <strong>Proto Viewer</strong> on real
+              <code>.proto</code> files. Everything stays in your browser.
+            </p>
+            <a class="cds-btn cds-btn--primary" href="#/viewer">Open Proto Viewer</a>
+            <a class="cds-btn cds-btn--tertiary" href="#/learn/protobuf">Learn the stack</a>
+          </div>
+
+          <h2 class="home-section-title">What you will learn</h2>
+          <div class="stack-strip">
+            <div><strong>Protobuf 3</strong>Messages · field numbers · wire ABI · presence</div>
+            <div><strong>gRPC</strong>Stubs · streaming · deadlines · status</div>
+            <div><strong>HTTP/2</strong>Streams · multiplex · trailers · ALPN</div>
+          </div>
+
+          <div class="tile-grid">
+            <a class="cds-tile cds-tile--clickable" href="#/learn/protobuf" style="color:inherit;text-decoration:none;">
+              <h3>1 · Protocol Buffers 3</h3>
+              <p>IDL, scalars vs messages, encoding tags, optional presence, evolution dos &amp; don’ts.</p>
+            </a>
+            <a class="cds-tile cds-tile--clickable" href="#/learn/grpc" style="color:inherit;text-decoration:none;">
+              <h3>2 · gRPC</h3>
+              <p>RPC lifecycle, four stream modes, deadlines, status codes, vs REST.</p>
+            </a>
+            <a class="cds-tile cds-tile--clickable" href="#/learn/http2" style="color:inherit;text-decoration:none;">
+              <h3>3 · HTTP/2</h3>
+              <p>Frames, multiplexing, HPACK, gRPC trailer mapping, h2 vs h2c.</p>
+            </a>
+            <a class="cds-tile cds-tile--clickable" href="#/learn/together" style="color:inherit;text-decoration:none;">
+              <h3>4 · How they fit</h3>
+              <p>End-to-end sequence, ownership matrix, cross-layer failure diagnosis.</p>
+            </a>
+          </div>
+
+          <div class="cds-tile" style="margin-top:1.5rem;border-block-start:3px solid var(--as-tertiary);">
+            <h3 style="margin-top:0;font-size:1.2em;">Proto Viewer — apply it</h3>
+            <p style="font-size:1.05em;">Load multi-file schemas: explore packages, services, messages, JSON examples, compose new contracts. Local-only unless you fetch a URL.</p>
+            <a class="cds-btn cds-btn--primary" href="#/viewer">Launch viewer</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- LEARN -->
+      <section class="page" id="page-learn" hidden aria-label="Learn">
+        <div id="learn-root"></div>
+      </section>
+
+      <!-- VIEWER (existing product) -->
+      <section class="page" id="page-viewer" hidden aria-label="Proto Viewer">
+        <div class="viewer-root">
+          <div id="app" class="app" data-mode="welcome">
+            <section class="welcome" id="welcome" aria-labelledby="welcome-title">
+              <div class="welcome-atmosphere" aria-hidden="true"></div>
+              <div class="welcome-inner">
+                <p class="welcome-brand">Proto Viewer</p>
+                <h1 id="welcome-title" class="welcome-title">See every wire in your API.</h1>
+                <p class="welcome-lede">
+                  Drop <code>.proto</code> files into the browser — explore packages, services, and message graphs,
+                  generate JSON examples, or compose new schemas. Local-only by default.
+                </p>
+                <div class="welcome-ctas">
+                  <button type="button" class="btn primary" id="welcome-open">Open .proto files</button>
+                  <button type="button" class="btn secondary" id="welcome-paste">Paste text</button>
+                  <button type="button" class="btn secondary" id="welcome-url">Fetch URL</button>
+                  <button type="button" class="btn secondary" id="welcome-compose">Compose blank</button>
+                </div>
+                <ul class="welcome-hints">
+                  <li>Use the header: Open · Paste · URL · Compose · Search — or shortcuts <kbd>O</kbd> <kbd>P</kbd> <kbd>U</kbd> <kbd>N</kbd> <kbd>/</kbd></li>
+                  <li>New to the stack? Open the side menu for Protobuf · gRPC · HTTP/2 lessons.</li>
+                </ul>
+              </div>
+              <div class="welcome-dropzone" id="dropzone" tabindex="0" aria-label="Drop protobuf files here">
+                <div class="dropzone-frame">
+                  <span class="dropzone-label">Drop <code>.proto</code> files here</span>
+                  <span class="dropzone-sub">or use Open in the header — folders welcome</span>
+                </div>
+              </div>
+            </section>
+
+            <main class="workspace" id="main" hidden>
+              <aside class="sidebar" aria-label="Schema explorer">
+                <div class="sidebar-head">
+                  <div class="tabs" role="tablist">
+                    <button type="button" class="tab active" role="tab" data-tree="types" aria-selected="true">Types</button>
+                    <button type="button" class="tab" role="tab" data-tree="files" aria-selected="false">Files</button>
+                    <button type="button" class="tab" role="tab" data-tree="services" aria-selected="false">Services</button>
+                  </div>
+                  <input type="search" class="filter-input" id="tree-filter" placeholder="Filter…" autocomplete="off" />
+                </div>
+                <div class="tree-scroll" id="tree-root" role="tree"></div>
+                <div class="sidebar-foot">
+                  <span id="stats-label">0 files</span>
+                  <button type="button" class="linkish" id="btn-clear" title="Clear workspace">Clear</button>
+                </div>
+              </aside>
+
+              <section class="stage" aria-live="polite">
+                <div class="stage-toolbar" id="stage-toolbar" hidden>
+                  <div class="crumb" id="crumb"></div>
+                  <div class="stage-actions">
+                    <button type="button" class="btn tiny ghost" data-view="structured" id="view-structured">Structure</button>
+                    <button type="button" class="btn tiny ghost" data-view="source" id="view-source">Source</button>
+                    <button type="button" class="btn tiny ghost" data-view="graph" id="view-graph">Graph</button>
+                    <button type="button" class="btn tiny ghost" data-view="json" id="view-json">JSON ex.</button>
+                    <button type="button" class="btn tiny ghost" id="btn-copy-fqn" title="Copy fully-qualified name">Copy FQN</button>
+                    <button type="button" class="btn tiny ghost" id="btn-export-md" title="Export Markdown docs">Docs</button>
+                  </div>
+                </div>
+                <div class="stage-body" id="stage-body">
+                  <div class="empty-stage">
+                    <p>Select a message, enum, or service from the tree — or search with <kbd>/</kbd>.</p>
+                  </div>
+                </div>
+              </section>
+
+              <aside class="inspector" id="inspector" aria-label="Related &amp; uses" hidden>
+                <h2 class="inspector-title">Related</h2>
+                <div id="inspector-body"></div>
+              </aside>
+            </main>
+
+            <div class="toast-host" id="toast-host" aria-live="polite"></div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <input type="file" id="file-input" accept=".proto,text/plain" multiple hidden />
+
+  <dialog class="modal" id="modal-paste">
+    <form method="dialog" class="modal-card" id="form-paste">
+      <header class="modal-head">
+        <h2>Paste protobuf</h2>
+        <button type="submit" class="btn icon ghost" value="cancel" aria-label="Close">×</button>
+      </header>
+      <label class="field">
+        <span>Filename (optional)</span>
+        <input type="text" name="filename" placeholder="api.proto" />
+      </label>
+      <label class="field grow">
+        <span>Proto source</span>
+        <textarea name="source" rows="16" spellcheck="false" placeholder='syntax = "proto3";&#10;&#10;package example.v1;&#10;&#10;message Hello {&#10;  string name = 1;&#10;}' required></textarea>
+      </label>
+      <footer class="modal-foot">
+        <button type="submit" class="btn ghost" value="cancel">Cancel</button>
+        <button type="submit" class="btn primary" value="ok" id="paste-ok">Load</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <dialog class="modal" id="modal-fetch">
+    <form method="dialog" class="modal-card" id="form-fetch">
+      <header class="modal-head">
+        <h2>Fetch from URL</h2>
+        <button type="submit" class="btn icon ghost" value="cancel" aria-label="Close">×</button>
+      </header>
+      <p class="modal-note">Works with CORS-enabled URLs (raw GitHub, Gists, public CDNs). Files are fetched in your browser only.</p>
+      <label class="field">
+        <span>URL</span>
+        <input type="url" name="url" placeholder="https://raw.githubusercontent.com/…/file.proto" required />
+      </label>
+      <footer class="modal-foot">
+        <button type="submit" class="btn ghost" value="cancel">Cancel</button>
+        <button type="submit" class="btn primary" value="ok">Fetch</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <dialog class="modal wide" id="modal-search">
+    <div class="modal-card search-card">
+      <header class="modal-head">
+        <input type="search" id="search-input" placeholder="Search types, fields, RPCs, comments…" autocomplete="off" />
+        <button type="button" class="btn icon ghost" id="search-close" aria-label="Close">×</button>
+      </header>
+      <div class="search-results" id="search-results" role="listbox"></div>
+      <footer class="modal-foot muted">
+        <span>↑↓ navigate · Enter open · Esc close</span>
+      </footer>
+    </div>
+  </dialog>
+
+  <dialog class="modal wide" id="modal-compose">
+    <form method="dialog" class="modal-card compose-card" id="form-compose">
+      <header class="modal-head">
+        <h2>Compose protobuf</h2>
+        <button type="submit" class="btn icon ghost" value="cancel" aria-label="Close">×</button>
+      </header>
+      <div class="compose-grid">
+        <label class="field">
+          <span>Package</span>
+          <input type="text" name="package" placeholder="example.v1" />
+        </label>
+        <label class="field">
+          <span>Syntax</span>
+          <select name="syntax">
+            <option value="proto3" selected>proto3</option>
+            <option value="proto2">proto2</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>Filename</span>
+          <input type="text" name="filename" placeholder="example.proto" />
+        </label>
+        <label class="field">
+          <span>Java package (optional)</span>
+          <input type="text" name="java_package" placeholder="com.example.v1" />
+        </label>
+      </div>
+      <div class="compose-sections">
+        <section class="compose-section">
+          <div class="compose-section-head">
+            <h3>Enums</h3>
+            <button type="button" class="btn tiny secondary" id="add-enum">+ Enum</button>
+          </div>
+          <div id="compose-enums"></div>
+        </section>
+        <section class="compose-section">
+          <div class="compose-section-head">
+            <h3>Messages</h3>
+            <button type="button" class="btn tiny secondary" id="add-message">+ Message</button>
+          </div>
+          <div id="compose-messages"></div>
+        </section>
+        <section class="compose-section">
+          <div class="compose-section-head">
+            <h3>Service</h3>
+            <button type="button" class="btn tiny secondary" id="add-rpc">+ RPC</button>
+          </div>
+          <label class="field inline">
+            <span>Service name</span>
+            <input type="text" name="service" placeholder="ExampleService" />
+          </label>
+          <div id="compose-rpcs"></div>
+        </section>
+      </div>
+      <details class="preview-block">
+        <summary>Live preview</summary>
+        <pre class="code-block" id="compose-preview"></pre>
+      </details>
+      <footer class="modal-foot">
+        <button type="button" class="btn ghost" id="compose-download">Download .proto</button>
+        <button type="submit" class="btn ghost" value="cancel">Cancel</button>
+        <button type="submit" class="btn primary" value="ok">Load into workspace</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <script type="module" src="js/boot.js"></script>
+</body>
+</html>

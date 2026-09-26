@@ -407,8 +407,33 @@ body.nav-collapsed .cds-sidenav {
 
 @media (max-width: 42rem) {
   :root {
-    --page-pad-x: var(--cds-spacing-05);
+    --page-pad-x: var(--cds-spacing-04);
     --page-pad-y: var(--cds-spacing-05);
+  }
+  .stack-strip {
+    grid-template-columns: 1fr;
+  }
+  .stack-strip div {
+    border-inline-end: 0;
+    border-block-end: 1px solid var(--line);
+  }
+  .stack-strip div:last-child {
+    border-block-end: 0;
+  }
+  .home-hero .cds-btn--tertiary {
+    margin-inline-start: 0;
+  }
+  .home-hero__actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .home-hero__actions .cds-btn {
+    width: 100%;
+  }
+  #page-viewer .welcome {
+    grid-template-columns: 1fr;
+    min-height: auto;
+    padding-block: var(--cds-spacing-06);
   }
 }
 
@@ -455,21 +480,29 @@ body:not(.nav-collapsed) .cds-sidenav-backdrop.is-active {
 }
 
 .home-hero {
-  width: 100%;
+  /* Full-bleed within padded .home: width:auto + equal negative margins
+     (width:100% + negative margins leaves a gap on the trailing edge). */
+  width: auto;
+  max-width: none;
   background: linear-gradient(135deg, var(--g-blue) 0%, var(--as-secondary) 100%);
   color: #fff;
-  padding: clamp(1.75rem, 4vw, 3rem) var(--page-pad-x);
-  margin: calc(-1 * var(--page-pad-y)) calc(-1 * var(--page-pad-x)) var(--cds-spacing-07);
+  padding-block: clamp(1.75rem, 4vw, 3rem);
+  padding-inline: var(--page-pad-x);
+  margin-block: calc(-1 * var(--page-pad-y)) var(--cds-spacing-07);
+  margin-inline: calc(-1 * var(--page-pad-x));
 }
 .home-hero h1 {
   margin: 0 0 var(--cds-spacing-04);
-  font-size: var(--cds-heading-04);
+  padding: 0;
+  font-size: clamp(1.35rem, 4.5vw, 1.75rem);
   font-weight: 400;
   letter-spacing: 0;
   line-height: 1.25;
+  text-wrap: balance;
 }
 .home-hero p {
   margin: 0 0 var(--cds-spacing-06);
+  padding: 0;
   max-width: 42rem;
   font-size: var(--cds-body-02);
   line-height: 1.5;
@@ -490,6 +523,14 @@ body:not(.nav-collapsed) .cds-sidenav-backdrop.is-active {
 }
 .home-hero .cds-btn--tertiary:hover {
   background: rgba(255, 255, 255, 0.15);
+}
+.home-hero .home-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--cds-spacing-03);
+}
+.home-hero .home-hero__actions .cds-btn--tertiary {
+  margin-inline-start: 0;
 }
 
 .stack-strip {
@@ -519,7 +560,7 @@ body:not(.nav-collapsed) .cds-sidenav-backdrop.is-active {
 
 .tile-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
   gap: clamp(0.75rem, 2vw, 1.25rem);
   margin: 1.25rem 0;
   width: 100%;
@@ -601,37 +642,24 @@ body:not(.nav-collapsed) .cds-sidenav-backdrop.is-active {
 .callout {
   border-inline-start: 4px solid var(--as-tertiary);
   background: var(--as-tertiary-soft);
-  padding: 1rem 1.15rem;
+  padding: clamp(0.85rem, 2.5vw, 1.1rem) clamp(0.9rem, 2.5vw, 1.15rem);
   margin: 1.15rem 0;
   color: var(--ink);
   font-size: 1.02em;
+  overflow-wrap: anywhere;
 }
 [data-theme="dark"] .callout {
   background: rgba(82, 183, 220, 0.15);
 }
 
+/* Base table-wrap; learn.css owns mobile card transform */
 .table-wrap {
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
   margin: 1rem 0;
   width: 100%;
+  max-width: 100%;
   border-block: 1px solid var(--line);
-}
-.learn table {
-  width: 100%;
-  border-collapse: collapse;
-  background: var(--surface);
-  font-size: 1em;
-}
-.learn th,
-.learn td {
-  padding: 0.85rem 1rem;
-  border-bottom: 1px solid var(--line);
-  text-align: left;
-  vertical-align: top;
-}
-.learn th {
-  background: var(--paper-2);
-  font-weight: 600;
 }
 
 .learn pre.code {
@@ -639,9 +667,11 @@ body:not(.nav-collapsed) .cds-sidenav-backdrop.is-active {
   color: #e8eaed;
   padding: 1.15rem;
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
   font-size: 0.95em;
   line-height: 1.5;
   width: 100%;
+  max-width: 100%;
 }
 
 .learn-pager {

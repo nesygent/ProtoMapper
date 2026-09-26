@@ -56,6 +56,45 @@ async function runMermaid(root) {
   }
 }
 
+/** Turn wide tables into labeled cards on narrow viewports. */
+function enhanceLearnTables(root) {
+  if (!root) return;
+  root.querySelectorAll(".table-wrap").forEach((wrap) => {
+    const table = wrap.querySelector("table");
+    if (!table || wrap.dataset.enhanced === "1") return;
+    wrap.dataset.enhanced = "1";
+
+    const headers = [...table.querySelectorAll("thead th")].map((th) =>
+      th.textContent.replace(/\s+/g, " ").trim()
+    );
+    if (headers.length) {
+      wrap.classList.add("is-cards");
+      table.querySelectorAll("tbody tr").forEach((tr) => {
+        [...tr.children].forEach((cell, i) => {
+          if (cell.tagName === "TD" && headers[i]) {
+            cell.setAttribute("data-label", headers[i]);
+          }
+        });
+      });
+    }
+
+    const markScroll = () => {
+      const scrollable = wrap.scrollWidth > wrap.clientWidth + 4;
+      wrap.dataset.scrollable = scrollable ? "true" : "false";
+      let hint = wrap.querySelector(".table-wrap__hint");
+      if (scrollable && !hint) {
+        hint = document.createElement("div");
+        hint.className = "table-wrap__hint";
+        hint.textContent = "Swipe sideways to see all columns";
+        wrap.prepend(hint);
+      }
+      if (hint) hint.hidden = !scrollable;
+    };
+    markScroll();
+    window.addEventListener("resize", markScroll, { passive: true });
+  });
+}
+
 function parseHash() {
   const raw = (location.hash || "#/home").replace(/^#\/?/, "");
   const path = raw.replace(/\/$/, "") || "home";
@@ -96,6 +135,7 @@ export async function render() {
   if (pageId === "page-learn" && learnRoot) {
     const key = path.split("/")[1];
     learnRoot.innerHTML = renderLearnPage(key);
+    enhanceLearnTables(learnRoot);
     learnRoot.querySelectorAll("[data-scroll]").forEach((a) => {
       a.addEventListener("click", (e) => {
         e.preventDefault();

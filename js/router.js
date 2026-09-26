@@ -1,13 +1,23 @@
 import { renderLearnPage } from "./learn.js";
 
-const ROUTES = {
-  home: "page-home",
-  viewer: "page-viewer",
-  "learn/protobuf": "page-learn",
-  "learn/grpc": "page-learn",
-  "learn/http2": "page-learn",
-  "learn/together": "page-learn",
-};
+function pageIdForPath(path) {
+  if (path === "home") return "page-home";
+  if (path === "viewer") return "page-viewer";
+  if (path.startsWith("learn/")) return "page-learn";
+  return "page-home";
+}
+
+function learnKeyForPath(path) {
+  if (!path.startsWith("learn/")) return null;
+  return path.slice("learn/".length);
+}
+
+function navMatch(path, target) {
+  if (target === path) return true;
+  // Keep "Protocol Buffers 3" sidenav lit for episode subpages
+  if (target === "learn/protobuf" && path.startsWith("learn/protobuf")) return true;
+  return false;
+}
 
 let mermaidReady = null;
 
@@ -104,7 +114,7 @@ function parseHash() {
 function setCurrentNav(path) {
   document.querySelectorAll("[data-nav]").forEach((el) => {
     const target = el.getAttribute("data-nav");
-    const active = target === path;
+    const active = navMatch(path, target);
     el.setAttribute("aria-current", active ? "page" : "false");
   });
 }
@@ -127,13 +137,13 @@ export function navigate(path) {
 
 export async function render() {
   const path = parseHash();
-  const pageId = ROUTES[path] || ROUTES.home;
+  const pageId = pageIdForPath(path);
   showPage(pageId);
-  setCurrentNav(ROUTES[path] ? path : "home");
+  setCurrentNav(path);
 
   const learnRoot = document.getElementById("learn-root");
   if (pageId === "page-learn" && learnRoot) {
-    const key = path.split("/")[1];
+    const key = learnKeyForPath(path);
     learnRoot.innerHTML = renderLearnPage(key);
     enhanceLearnTables(learnRoot);
     learnRoot.querySelectorAll("[data-scroll]").forEach((a) => {
@@ -146,17 +156,21 @@ export async function render() {
     await runMermaid(learnRoot);
   }
 
-  document.title =
-    {
-      home: "ProtoMap — learn & view protobuf",
-      viewer: "ProtoMap — Viewer",
-      "learn/protobuf": "ProtoMap — Protocol Buffers 3",
-      "learn/grpc": "ProtoMap — gRPC",
-      "learn/http2": "ProtoMap — HTTP/2",
-      "learn/together": "ProtoMap — How they fit",
-    }[path] || "ProtoMap";
+  const titles = {
+    home: "ProtoMap — learn & view protobuf",
+    viewer: "ProtoMap — Viewer",
+    "learn/protobuf": "ProtoMap — Harbor Heist (Proto3)",
+    "learn/protobuf/1": "ProtoMap — Ep1 · Names vanished",
+    "learn/protobuf/2": "ProtoMap — Ep2 · Recruit crew",
+    "learn/protobuf/3": "ProtoMap — Ep3 · Whiteboard",
+    "learn/protobuf/4": "ProtoMap — Ep4 · Pull the job",
+    "learn/protobuf/5": "ProtoMap — Ep5 · Getaway",
+    "learn/grpc": "ProtoMap — gRPC",
+    "learn/http2": "ProtoMap — HTTP/2",
+    "learn/together": "ProtoMap — How they fit",
+  };
+  document.title = titles[path] || "ProtoMap";
 
-  // Notify viewer module
   window.dispatchEvent(new CustomEvent("protomap:route", { detail: { path, pageId } }));
 }
 

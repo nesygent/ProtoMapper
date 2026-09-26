@@ -336,8 +336,67 @@
   color: var(--as-tertiary);
 }
 
-.section-anchor {
-  scroll-margin-top: calc(var(--cds-header-h) + var(--cds-spacing-05));
+.learn-toc a[aria-current="page"] {
+  font-weight: 600;
+  color: var(--as-secondary);
+}
+
+.learn-scene,
+.learn-challenge,
+.learn-reveal {
+  margin: var(--cds-spacing-05) 0;
+  padding: clamp(0.75rem, 2.5vw, 1rem) clamp(0.85rem, 2.5vw, 1.15rem);
+  border: 0;
+  border-inline-start: 4px solid var(--as-tertiary);
+  background: var(--as-tertiary-soft);
+  color: var(--ink);
+  font-style: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  max-width: 100%;
+}
+.learn-challenge {
+  border-inline-start-color: var(--as-secondary);
+  background: var(--as-secondary-soft);
+}
+.learn-reveal {
+  border-inline-start-color: var(--as-soft);
+  background: var(--as-soft-bg);
+}
+[data-theme="dark"] .learn-scene,
+[data-theme="dark"] .learn-challenge {
+  background: rgba(82, 183, 220, 0.12);
+}
+[data-theme="dark"] .learn-reveal {
+  background: rgba(244, 196, 166, 0.12);
+}
+
+.learn-toc a[aria-current="page"] {
+  outline: 2px solid var(--as-secondary);
+  outline-offset: -2px;
+}
+
+.learn .cds-btn + .cds-btn {
+  margin-inline-start: 0;
+}
+.learn-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--cds-spacing-03);
+  margin-top: var(--cds-spacing-05);
+}
+.learn-actions .cds-btn {
+  flex: 1 1 auto;
+  min-width: min(100%, 10rem);
+  justify-content: center;
+}
+
+@media (min-width: 66rem) {
+  .learn-toc a[aria-current="page"] {
+    border-inline-start-color: var(--as-secondary);
+    background: transparent;
+    outline: none;
+  }
 }
 
 .learn details.deep {
@@ -507,6 +566,24 @@
   .learn-pager .cds-btn {
     width: 100%;
     justify-content: center;
+  }
+  .learn-actions {
+    flex-direction: column;
+  }
+  .learn-actions .cds-btn {
+    width: 100%;
+    min-width: 0;
+  }
+  .learn-scene,
+  .learn-challenge,
+  .learn-reveal {
+    margin-inline: 0;
+  }
+  .learn-hero h1 {
+    font-size: clamp(1.2rem, 5vw, 1.5rem);
+  }
+  .learn-kicker {
+    line-height: 1.4;
   }
 }
 
